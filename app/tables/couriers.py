@@ -10,7 +10,7 @@ from app.database import get_db
 from app.models.models import Courier, Order
 from app.schemas.courier import CreateCourier, GetAllCourier, \
     GetWithoutOrderCourier, GetWithOrderCourier
-from app.schemas.default_response import DefaultResponse
+from app.utilities.default_response import DefaultResponse
 
 router = APIRouter(
     prefix="/api",

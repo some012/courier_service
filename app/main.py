@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from app.models import models
-from app.tables import couriers, orders
 from app.database import engine, Base
+from app.tables import couriers, orders
 
 # Создание таблиц в базе данных
 Base.metadata.create_all(bind=engine)
@@ -14,7 +13,6 @@ app = FastAPI()
 app.include_router(couriers.router)
 app.include_router(orders.router)
 
-# Корневой маршрут
 @app.get("/", response_class=HTMLResponse)
 def root():
     return HTMLResponse("<a href=""/docs"" target=""_blank"">Перейти на базу Яндекс Доставки</a>")

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.models import Order, Courier
-from app.schemas.default_response import DefaultResponse
+from app.utilities.default_response import DefaultResponse
 from app.schemas.orders import CreateOrders, GetOrders
 
 router = APIRouter(
@@ -78,7 +78,7 @@ def complete_order(id: int, db: Session = Depends(get_db)):
 
 
 @router.delete("/order/{id}", response_model=DefaultResponse, responses=responses)
-def remove_courier(id: int, response: Response, db: Session = Depends(get_db)):
+def remove_order(id: int, response: Response, db: Session = Depends(get_db)):
     order = db.execute(select(Order).filter(Order.id == id))  # находим заказ
     this_order = order.scalar_one_or_none()
 
