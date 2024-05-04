@@ -1,10 +1,10 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 
-from app.models.base import BaseModel
+from app.database import Base
 
 
-class Courier(BaseModel):
+class Courier(Base):
     __tablename__ = "courier"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -15,7 +15,7 @@ class Courier(BaseModel):
     active_order = relationship("Order", back_populates="id_courier", cascade="all, delete-orphan")
 
 
-class Order(BaseModel):
+class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
