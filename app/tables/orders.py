@@ -36,7 +36,7 @@ def get_order(id: int, response: Response, db: Session = Depends(get_db)):
 
     if this_order is None:  # если не нашли - ищем в бэкапе
         new_order = db.execute(select(OrderBackup).filter(OrderBackup.id == id))
-        this_order1 = order.scalar_one_or_none()  # также по id ищем заказ
+        this_order1 = new_order.scalar_one_or_none()  # также по id ищем заказ
         return {
             "id": this_order1.id,
             "courier_id": this_order1.courier_id,
