@@ -37,22 +37,22 @@ def get_order(id: int, response: Response, db: Session = Depends(get_db)):
     if this_order is None:  # если не нашли - ищем в бэкапе
         new_order = db.execute(select(OrderBackup).filter(OrderBackup.id == id))
         this_order1 = new_order.scalar_one_or_none()  # также по id ищем заказ
-        return {
-            "id": this_order1.id,
-            "courier_id": this_order1.courier_id,
-            "status": this_order1.status,
-            "district": this_order1.district,
-            "date_get": this_order1.date_get,
-            "date_end": this_order1.date_end
-        }
+        return GetOrdersFinish(
+            id=this_order1.id,
+            courier_id=this_order1.courier_id,
+            status=this_order1.status,
+            district=this_order1.district,
+            date_get=this_order1.date_get,
+            date_end=this_order1.date_end
+        )
 
-    return {
-        "id": this_order.id,
-        "courier_id": this_order.courier_id,
-        "status": this_order.status,
-        "district": this_order.district,
-        "date_get": this_order.date_get
-    }
+    return GetOrdersNotFinish(
+            id=this_order.id,
+            courier_id=this_order.courier_id,
+            status=this_order.status,
+            district=this_order.district,
+            date_get=this_order.date_get
+        )
 
 
 @router.post("/orders", response_model=DefaultResponse, status_code=status.HTTP_200_OK)
