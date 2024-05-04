@@ -7,9 +7,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.models import Courier, Order
+from app.models.models import Courier, Order, OrderBackup
 from app.schemas.courier import CreateCourier, GetAllCourier, \
     GetWithoutOrderCourier, GetWithOrderCourier
+from app.utilities import crud
 from app.utilities.default_response import DefaultResponse
 
 router = APIRouter(
@@ -46,8 +47,8 @@ def get_courier(id: int, response: Response, db: Session = Depends(get_db)):
         return {
             "id": this_courier.id,
             "name": this_courier.name,
-            "avg_order_complete_time": this_courier.avg_order_complete_time,
-            "avg_day_orders": this_courier.avg_day_orders
+            "avg_order_complete_time": crud.average_order_completion_time(db, OrderBackup, this_courier),
+            "avg_day_orders": crud.average_order_days(db, OrderBackup, this_courier)
         }
     else:  # если все-таки нашли - показываем информацию активного заказа
 
@@ -74,7 +75,7 @@ def create_courier(courier_data: CreateCourier, db: Session = Depends(get_db)):
         name=courier_data.name,
         districts=districts_str,
         avg_order_complete_time=datetime.now(),
-        avg_day_orders=random.randint(0, 20))
+        avg_day_orders=0)
 
     db.add(new_courier)
     db.commit()

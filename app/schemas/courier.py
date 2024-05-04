@@ -48,7 +48,7 @@ class GetAllCourier(BaseModel):  # выводим у всех курьеров �
 class GetWithoutOrderCourier(BaseModel):  # вывод информации без активного заказа со средними значениями
     id: Annotated[int, Field(ge=0)]
     name: Annotated[str, Field(min_length=2, max_length=30)]
-    avg_order_complete_time: datetime
+    avg_order_complete_time: float
     avg_day_orders: Annotated[int, Field(ge=0)]
 
 

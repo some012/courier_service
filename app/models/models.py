@@ -22,6 +22,21 @@ class Order(Base):
     name = Column(String, index=True)
     district = Column(String)
     status = Column(Integer, default=1)  # 1 - в работе, 2 - завершен
+    date_get = Column(DateTime)
+    date_end = Column(DateTime)
 
-    courier_id = Column(Integer, ForeignKey("courier.id"))
+    courier_id = Column(Integer, ForeignKey("courier.id"), nullable=True)
     id_courier = relationship("Courier", back_populates="active_order", lazy="selectin")
+
+
+class OrderBackup(Base):
+    __tablename__ = "orders_backup"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    district = Column(String)
+    status = Column(Integer, default=1)  # 1 - в работе, 2 - завершен
+    date_get = Column(DateTime)
+    date_end = Column(DateTime)
+
+    courier_id = Column(Integer)

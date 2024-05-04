@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import Field, BaseModel
 from typing import Annotated
 from app.schemas.base import BaseSchema
@@ -5,7 +7,7 @@ from app.schemas.base import BaseSchema
 
 class Orders(BaseSchema):
     name: Annotated[str, Field(min_length=2, max_length=30)]
-    courier_id: Annotated[int, Field(gt=0)]
+    courier_id: Annotated[int, Field(ge=0)]
     status: Annotated[int, Field(gt=0)]
     district: Annotated[str, Field(min_length=2, max_length=30)]
 
@@ -37,6 +39,18 @@ class CreateOrders(BaseSchema):
         }
 
 
-class GetOrders(BaseModel):  # get выводит только эти две переменные
-    courier_id: Annotated[int, Field(allow_none=True)]
+class GetOrdersFinish(BaseModel):
+    id: Annotated[int, Field(ge=0)]
+    courier_id: Annotated[int, Field(ge=0)]
     status: Annotated[int, Field(gt=0)]
+    district: Annotated[str, Field(min_length=2, max_length=30)]
+    date_get: Annotated[datetime, Field(allow_none=True)]
+    date_end: Annotated[datetime, Field(allow_none=True)]
+
+
+class GetOrdersNotFinish(BaseModel):
+    id: Annotated[int, Field(ge=0)]
+    courier_id: Annotated[int, Field(ge=0)]
+    status: Annotated[int, Field(gt=0)]
+    district: Annotated[str, Field(min_length=2, max_length=30)]
+    date_get: Annotated[datetime, Field(allow_none=True)]

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from app.database import engine, Base
-from app.tables import couriers, orders
+from app.tables import couriers, orders, orders_backup
 
 # Создание таблиц в базе данных
 Base.metadata.create_all(bind=engine)
@@ -12,6 +12,8 @@ app = FastAPI()
 # Включение роутеров для обработки запросов
 app.include_router(couriers.router)
 app.include_router(orders.router)
+app.include_router(orders_backup.router)
+
 
 @app.get("/", response_class=HTMLResponse)
 def root():
