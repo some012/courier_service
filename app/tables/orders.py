@@ -69,6 +69,7 @@ def complete_order(id: int, db: Session = Depends(get_db)):
     this_courier = courier.scalar_one_or_none()
 
     if this_courier:
+        this_courier.active_order = []
         order_data.status = 2  # завершаем заказ
         db.commit()
 
