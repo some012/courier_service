@@ -10,6 +10,8 @@ class Orders(BaseSchema):
     courier_id: Annotated[int, Field(ge=0)]
     status: Annotated[int, Field(gt=0)]
     district: Annotated[str, Field(min_length=2, max_length=30)]
+    date_get: datetime
+    date_end: datetime
 
     class ConfigDict:
         from_attributes = True
@@ -44,8 +46,8 @@ class GetOrdersFinish(BaseModel):
     courier_id: Annotated[int, Field(ge=0)]
     status: Annotated[int, Field(gt=0)]
     district: Annotated[str, Field(min_length=2, max_length=30)]
-    date_get: Annotated[datetime, Field(allow_none=True)]
-    date_end: Annotated[datetime, Field(allow_none=True)]
+    date_get: datetime
+    date_end: datetime
 
 
 class GetOrdersNotFinish(BaseModel):
@@ -53,4 +55,4 @@ class GetOrdersNotFinish(BaseModel):
     courier_id: Annotated[int, Field(ge=0)]
     status: Annotated[int, Field(gt=0)]
     district: Annotated[str, Field(min_length=2, max_length=30)]
-    date_get: Annotated[datetime, Field(allow_none=True)]
+    date_get: datetime

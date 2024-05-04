@@ -35,15 +35,15 @@ def get_order(id: int, response: Response, db: Session = Depends(get_db)):
     this_order = order.scalar_one_or_none()  # также по id ищем заказ
 
     if this_order is None:  # если не нашли - ищем в бэкапе
-        order = db.execute(select(OrderBackup).filter(OrderBackup.id == id))
-        this_order = order.scalar_one_or_none()  # также по id ищем заказ
+        new_order = db.execute(select(OrderBackup).filter(OrderBackup.id == id))
+        this_order1 = order.scalar_one_or_none()  # также по id ищем заказ
         return {
-            "id": this_order.id,
-            "courier_id": this_order.courier_id,
-            "status": this_order.status,
-            "district": this_order.district,
-            "date_get": this_order.date_get,
-            "date_end": this_order.date_end
+            "id": this_order1.id,
+            "courier_id": this_order1.courier_id,
+            "status": this_order1.status,
+            "district": this_order1.district,
+            "date_get": this_order1.date_get,
+            "date_end": this_order1.date_end
         }
 
     return {
@@ -69,7 +69,6 @@ def create_order(response: Response, order_data: CreateOrders, db: Session = Dep
         # создаем его через CreateOrder, беря оттуда name и district
         name=order_data.name,
         district=order_data.district,
-        date_get=datetime.now(),
         courier_id=this_courier.id,
         status=1)
 
